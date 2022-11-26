@@ -26,20 +26,20 @@ end
 
 read!
 
-File.open("./coin.txt", "w") do |file|
+File.open("./data/coin.txt", "w") do |file|
   file.sync = true
 
   624.times do
     write!("О")
-    read!
-    seed, result = result.match(/выдает (\d+).+(орел|решка)/).values_at(1, 2)
+    output = read!
+    seed, result = output.match(/выдает (\d+).+(орел|решка)/).values_at(1, 2)
     file.puts(seed)
   end
 end
 
-`rm predicted.txt && cat coin.txt | mt19937predict | head -n 100 > predicted.txt`
+`rm data/predicted.txt && cat data/coin.txt | mt19937predict | head -n 100 > data/predicted.txt`
 
-File.open("predicted.txt", "r") do |file|
+File.open("data/predicted.txt", "r") do |file|
   100.times do
     line = file.gets
     answer = line.to_i.even? ? "О" : "Р"
